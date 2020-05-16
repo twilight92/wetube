@@ -16,7 +16,8 @@ export const search = (req, res) => {
     res.render("search", {
         pageTitle: "Search",
         // searchingBy: searchingBy
-        searchingBy
+        searchingBy,
+        videos
     });
 }
 
