@@ -1,6 +1,9 @@
 extends layouts/main
+include mixins/videoBlock
 
 block content
     each item in videos
-        h1= item.title
-        p= item.description
+        +videoBlock({
+            title: item.title,
+            description: item.description
+        })
