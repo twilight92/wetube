@@ -1,4 +1,10 @@
-export const home = (req, res) => res.render("home", { pageTitle: "Home" });
+import { videos } from "../db";
+export const home = (req, res) => {
+    res.render("home", {
+        pageTitle: "Home",
+        videos
+    });
+};
 // render 함수의 첫번째 인자는 템플릿, 두번째 인자는 템플릿에 추가할 정보가 담긴 객체
 
 export const search = (req, res) => {
@@ -13,8 +19,6 @@ export const search = (req, res) => {
         searchingBy
     });
 }
-
-export const videos = (req, res) => res.render("videos", { pageTitle: "Videos" });
 
 export const upload = (req, res) => res.render("upload", { pageTitle: "Upload" });
 
