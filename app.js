@@ -3,19 +3,23 @@ import morgan from "morgan";
 import helmet from "helmet";
 import cookieParser from "cookie-parser";
 import bodyParser from "body-parser";
+import { localsMiddleware } from "./middlewares";
+// 알파벳 순으로 임포트 하는게 좋은 습관/ m은 r보다 먼저기 때문에 앞으로 이동
+import routes from "./routes";
 import userRouter from "./routers/userRouter";
 import videoRouter from "./routers/videoRouter";
 import globalRouter from "./routers/globalRouter";
-import routes from "./routes";
 
 const app = express();
 
+app.use(helmet());
 app.set("view engine", "pug");
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(helmet());
 app.use(morgan("dev"));
+
+app.use(localsMiddleware)
 
 app.use(routes.home, globalRouter);
 app.use(routes.users, userRouter);
