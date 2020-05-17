@@ -8,7 +8,7 @@ JavaScript는 한 번에 많은 일을 할 수 있고 기다리지 않기 때문
 예)
 일단 Video를 살펴보고 있으니까 다음 render 작업도 같이할게
 */  try {
-        const videos = await Video.find({});
+        const videos = await Video.find({}).sort({'_id': -1});
         /*
         await 다음 과정이 끝날 때까지 잠시 기다려 달라
         Database에 있는 모든 Video 가져오기
