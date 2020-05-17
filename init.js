@@ -1,7 +1,11 @@
 import "./db";
 import app from "./app";
+import dotenv from "dotenv";
+dotenv.config();
 
-const PORT = 8080;
+const PORT = process.env.PORT || 8080;
+// process.env로 부터 PORT를 불러와서 만일 대상을 못 찾으면 8080번으로
+// 키 숨기기
 
 const handleListening = () =>
     console.log(`✅ Listening on: http://localhost:${PORT}`);
