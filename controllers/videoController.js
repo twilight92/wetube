@@ -1,14 +1,17 @@
 import routes from "../routes";
 import Video from "../models/Video";
 
-export const home = async(req, res) => {
-/*
-async: JavaScript야 이 function의 어떤 부분은 꼭 기다려야 해
-JavaScript는 한 번에 많은 일을 할 수 있고 기다리지 않기 때문
-예)
-일단 Video를 살펴보고 있으니까 다음 render 작업도 같이할게
-*/  try {
-        const videos = await Video.find({}).sort({'_id': -1});
+export const home = async (req, res) => {
+    /*
+    async: JavaScript야 이 function의 어떤 부분은 꼭 기다려야 해
+    JavaScript는 한 번에 많은 일을 할 수 있고 기다리지 않기 때문
+    예)
+    일단 Video를 살펴보고 있으니까 다음 render 작업도 같이할게
+    */
+    try {
+        const videos = await Video.find({}).sort({
+            '_id': -1
+        });
         /*
         await 다음 과정이 끝날 때까지 잠시 기다려 달라
         Database에 있는 모든 Video 가져오기
@@ -16,10 +19,16 @@ JavaScript는 한 번에 많은 일을 할 수 있고 기다리지 않기 때문
 
         await부분이 끝나기 전까지는 render 부분을 실행하지 않을 것
         */
-        res.render("home", { pageTitle: "Home", videos });
-    } catch(error) {
+        res.render("home", {
+            pageTitle: "Home",
+            videos
+        });
+    } catch (error) {
         console.log(error);
-        res.render("home", { pageTitle: "Home", videos: [] });
+        res.render("home", {
+            pageTitle: "Home",
+            videos: []
+        });
     }
     /*
     try catch: error가 생기면 default로 잡아내지 못한다.
@@ -32,7 +41,9 @@ JavaScript는 한 번에 많은 일을 할 수 있고 기다리지 않기 때문
 export const search = (req, res) => {
     //const searchingBy = req.query.term;
     const {
-        query: { term: searchingBy }
+        query: {
+            term: searchingBy
+        }
     } = req;
 
     res.render("search", {
@@ -43,30 +54,39 @@ export const search = (req, res) => {
     });
 }
 
-export const getUpload = (req, res) => res.render("upload", { pageTitle: "Upload" });
+export const getUpload = (req, res) => res.render("upload", {
+    pageTitle: "Upload"
+});
 
-export const postUpload = async(req, res) => {
+export const postUpload = async (req, res) => {
     const {
         // body: { file, title, description }
         // 존재하는 건 file, title, description/ body는 우리가 마지막으로 정의한 variable이 아니어서 존재 X
-        body: { title, description },
-        file: { path }
+        body: {
+            title,
+            description
+        },
+        file: {
+            path
+        }
     } = req;
 
     const newVideo = await Video.create({
-      fileUrl: path,
-      title: title,
-      description: description
+        fileUrl: path,
+        title: title,
+        description: description
     });
 
     // To Do: Upload and save video
     res.redirect(routes.videoDetail(newVideo.id));
 }
 
-export const videoDetail = async(req, res) => {
+export const videoDetail = async (req, res) => {
     // console.log(req.params.id);
     const {
-        params: {id}
+        params: {
+            id
+        }
     } = req;
     try {
         const video = await Video.findById(id);
@@ -75,14 +95,14 @@ export const videoDetail = async(req, res) => {
             pageTitle: video.title,
             video
         });
-    } catch(error) {
+    } catch (error) {
         console.log(error);
         res.redirect(routes.home);
     }
 
 }
 
-export const getEditVideo = async(req, res) => {
+export const getEditVideo = async (req, res) => {
     const {
         params: {
             id
@@ -95,35 +115,37 @@ export const getEditVideo = async(req, res) => {
             pageTitle: `Edit ${video.title}`,
             video
         });
-    } catch(error) {
+    } catch (error) {
         console.log(error);
         res.redirect(routes.home);
     }
 }
-export const postEditVideo = async(req, res) => {
+export const postEditVideo = async (req, res) => {
     const {
-        params: { id },
-        body: { title, description }
+        params: {
+            id
+        },
+        body: {
+            title,
+            description
+        }
     } = req;
     try {
-        await Video.findByIdAndUpdate(
-            {
-                _id: id
-            },
-            {
-                title,
-                description
-            }
-         )
+        await Video.findByIdAndUpdate({
+            _id: id
+        }, {
+            title,
+            description
+        })
 
         res.redirect(routes.videoDetail(id));
-    } catch(error) {
+    } catch (error) {
         res.redirect(routes.home);
     }
 }
 
 // delete Video에는 post가 필요없다
-export const deleteVideo = async(req, res) => {
+export const deleteVideo = async (req, res) => {
     // (req, res) => res.render("deleteVideo", {
     //     pageTitle: "Delete Video"
     // });
@@ -133,8 +155,11 @@ export const deleteVideo = async(req, res) => {
         }
     } = req;
     try {
-        await Video.findOneAndRemove({ _id: id});
-    } catch(error) {
+        await Video.findOneAndRemove({
+            _id: id
+        });
+    } catch (error) {
+        console.log(error);
     }
 
     res.redirect(routes.home);
