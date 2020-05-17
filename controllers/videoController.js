@@ -72,7 +72,7 @@ export const videoDetail = async(req, res) => {
         const video = await Video.findById(id);
         console.log(video);
         res.render("videoDetail", {
-            pageTitle: "Video Detail",
+            pageTitle: video.title,
             video
         });
     } catch(error) {
@@ -122,4 +122,20 @@ export const postEditVideo = async(req, res) => {
     }
 }
 
-export const deleteVideo = (req, res) => res.render("deleteVideo", { pageTitle: "Delete Video" });
+// delete Video에는 post가 필요없다
+export const deleteVideo = async(req, res) => {
+    // (req, res) => res.render("deleteVideo", {
+    //     pageTitle: "Delete Video"
+    // });
+    const {
+        params: {
+            id
+        }
+    } = req;
+    try {
+        await Video.findOneAndRemove({ _id: id});
+    } catch(error) {
+    }
+
+    res.redirect(routes.home);
+}
