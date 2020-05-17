@@ -38,7 +38,7 @@ export const home = async (req, res) => {
 };
 // render 함수의 첫번째 인자는 템플릿, 두번째 인자는 템플릿에 추가할 정보가 담긴 객체
 
-export const search = (req, res) => {
+export const search = async (req, res) => {
     //const searchingBy = req.query.term;
     const {
         query: {
@@ -46,6 +46,18 @@ export const search = (req, res) => {
         }
     } = req;
 
+    let videos = [];
+
+    try {
+        videos = await Video.find({
+            title: {
+                $regex: searchingBy,
+                $options: "i"
+            }
+        });
+    } catch (error) {
+        console.log(error)
+    }
     res.render("search", {
         pageTitle: "Search",
         // searchingBy: searchingBy
