@@ -24,6 +24,7 @@
     "start": "nodemon --exec babel-node init.js"
   },
   "devDependencies": {
+    "eslint": "^7.0.0",
     "nodemon": "^2.0.4"
   }
 }
