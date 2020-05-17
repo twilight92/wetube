@@ -45,17 +45,23 @@ export const search = (req, res) => {
 
 export const getUpload = (req, res) => res.render("upload", { pageTitle: "Upload" });
 
-export const postUpload = (req, res) => {
+export const postUpload = async(req, res) => {
     const {
-        body: {
-            file,
-            title,
-            description
-        }
+        // body: { file, title, description }
+        // 존재하는 건 file, title, description/ body는 우리가 마지막으로 정의한 variable이 아니어서 존재 X
+        body: { title, description },
+        file: { path }
     } = req;
-    console.dir(file, title, description)
+
+    const newVideo = await Video.create({
+      fileUrl: path,
+      title: title,
+      description: description
+    });
+    console.log(newVideo);
+
     // To Do: Upload and save video
-    res.redirect(routes.videoDetail(324393));
+    res.redirect(routes.videoDetail(newVideo.id));
 }
 
 export const videoDetail = (req, res) => res.render("videoDetail", { pageTitle: "Video Detail" });
