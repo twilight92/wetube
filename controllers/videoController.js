@@ -68,9 +68,18 @@ export const videoDetail = async(req, res) => {
     const {
         params: {id}
     } = req;
-    const video = await Video.findById(id);
-    console.log(video);
-    res.render("videoDetail", { pageTitle: "Video Detail" });
+    try {
+        const video = await Video.findById(id);
+        console.log(video);
+        res.render("videoDetail", {
+            pageTitle: "Video Detail",
+            video
+        });
+    } catch(error) {
+        console.log(error);
+        res.redirect(routes.home);
+    }
+
 }
 
 export const editVideo = (req, res) => res.render("editVideo", { pageTitle: "Edit Video" });
