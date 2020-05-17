@@ -1,7 +1,8 @@
 import multer from "multer";
 import routes from "./routes";
 
-const multerVideo = multer({ dest: "videos/" });
+const multerVideo = multer({ dest: "uploads/videos/" });
+// 경로를 '/uploads/videos/' 이런식으로 쓰면 네 컴퓨터의 root에 upload를 만든다.
 
 export const localsMiddleware = (req, res, next) => {
     res.locals.siteName = 'WeTube';
