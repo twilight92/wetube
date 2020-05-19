@@ -1,9 +1,12 @@
+import dotenv from "dotenv";
 import "./db";
 import app from "./app";
-import dotenv from "dotenv";
+
 dotenv.config();
+
 import "./models/Video";
 import "./models/Comment";
+import "./models/User";
 
 const PORT = process.env.PORT || 8080;
 // process.env로 부터 PORT를 불러와서 만일 대상을 못 찾으면 8080번으로
